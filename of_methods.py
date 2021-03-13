@@ -29,6 +29,7 @@ def lucaskanade (im1 ,im2, N):
     negy2 = Sigmay2 * -1 #tretji korak, sestavimo jih v en skupni račun
     zgornji = np.add(np.multiply(negy2, Sigmaxt), np.multiply(Sigmaxy, Sigmayt))
     spodnji = np.subtract(np.multiply(Sigmax2, Sigmay2), np.multiply(Sigmaxy, Sigmaxy))
+    spodnji[spodnji == 0 ] = 1
     u = np.divide(zgornji, spodnji)
     zgornji2 = np.subtract(np.multiply(Sigmaxy, Sigmaxt), np.multiply(Sigmax2, Sigmayt))
     v = np.divide(zgornji2, spodnji)
@@ -64,8 +65,18 @@ im1 = np.random.rand(200, 200).astype(np.float32)
 im2 = im1.copy()
 im2 = rotate_image(im2, -1)
 
+
+#im1 = cv2.imread('cporta_left.png', 0)
+#im2 = cv2.imread('cporta_right.png', 0)
+
 U_lk, V_lk = lucaskanade(im1, im2, 3)
+print(U_lk.shape)
+print(V_lk.shape)
 U_hs, V_hs = hornschunck(im1, im2, 1000, 0.5)
+
+print(U_hs.shape)
+print(V_hs.shape)
+
 #print(U_lk) #preverimo izhode, če so matrike pravilne velikosti
 #print(V_lk)
 #print(U_hs)
