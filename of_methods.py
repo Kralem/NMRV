@@ -60,38 +60,3 @@ def hornschunck(im1, im2, n_iters, lmbd):
         u = np.subtract(ua, np.multiply(Ix, np.divide(P,D)))
         v = np.subtract(va, np.multiply(Iy, np.divide(P, D)))
     return u, v
-
-im1 = np.random.rand(200, 200).astype(np.float32)
-im2 = im1.copy()
-im2 = rotate_image(im2, -1)
-
-
-#im1 = cv2.imread('cporta_left.png', 0)
-#im2 = cv2.imread('cporta_right.png', 0)
-
-U_lk, V_lk = lucaskanade(im1, im2, 3)
-print(U_lk.shape)
-print(V_lk.shape)
-U_hs, V_hs = hornschunck(im1, im2, 1000, 0.5)
-
-print(U_hs.shape)
-print(V_hs.shape)
-
-#print(U_lk) #preverimo izhode, če so matrike pravilne velikosti
-#print(V_lk)
-#print(U_hs)
-#print(V_hs)
-fig1, ((ax1_11, ax1_12), (ax1_21, ax1_22)) = plt.subplots(2,2)
-ax1_11.imshow(im1)
-ax1_12.imshow(im2)
-show_flow(U_lk, V_lk, ax1_21, type='angle')
-show_flow(U_lk, V_lk, ax1_22, type='field', set_aspect=True)
-fig1.suptitle('Lucas-Kanade optical flow')
-
-fig2, ((ax2_11, ax2_12), (ax2_21, ax2_22)) = plt.subplots(2,2)
-ax2_11.imshow(im1)
-ax2_12.imshow(im2)
-show_flow(U_hs, V_hs, ax2_21, type='angle')
-show_flow(U_hs, V_hs, ax2_22, type='field', set_aspect=True)
-fig2.suptitle('Horn-Schunck optical flow')
-plt.show()
