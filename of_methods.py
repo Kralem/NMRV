@@ -27,13 +27,13 @@ def lucaskanade (im1 ,im2, N):
     Sigmay2 = cv2.filter2D(Iy2, -1, matrika)
     Sigmaxy = cv2.filter2D(IxIy, -1, matrika)
     negy2 = Sigmay2 * -1 #tretji korak, sestavimo jih v en skupni račun
-    zgornji = np.add(np.multiply(negy2, Sigmaxt), np.multiply(Sigmaxy, Sigmayt))
+    zgornji = np.subtract(np.multiply(Sigmay2, Sigmaxt), np.multiply(Sigmaxy, Sigmayt))
     spodnji = np.subtract(np.multiply(Sigmax2, Sigmay2), np.multiply(Sigmaxy, Sigmaxy))
     spodnji[spodnji == 0 ] = 1
     u = np.divide(zgornji, spodnji)
-    zgornji2 = np.subtract(np.multiply(Sigmaxy, Sigmaxt), np.multiply(Sigmax2, Sigmayt))
+    zgornji2 = np.subtract(np.multiply(Sigmax2, Sigmayt), np.multiply(Sigmaxy, Sigmaxt))
     v = np.divide(zgornji2, spodnji)
-    return u, v
+    return -u, -v
 
 def hornschunck(im1, im2, n_iters, lmbd):
     #im1 − first image matrix (grayscale)
@@ -41,8 +41,13 @@ def hornschunck(im1, im2, n_iters, lmbd):
     #n_iter - number of iterations (try several hundred)
     #lmbd - parameter
     #TODO : the algorithm
+
+
     u = 0 * im1 #prvi korak, definiramo u, v in vse ostalo kar potrebujemo
     v = 0 * im1
+
+    #u,v = lucaskanade(im1, im2, 3) #speed-up
+
     Ix1, Iy1 = gaussderiv(im1, 1)
     Ix2, Iy2 = gaussderiv(im2, 1)
     Ix = np.add(Ix1, Ix2) / 2
