@@ -12,13 +12,16 @@ sy = random.randint(40,60)
 center = [sx, sy]
 print(center)
 #60 43
+#60 42
 #51 42
 #53 45
+#53 41
 #57 46
 #60 50
 #59 48
 #52 42
 #55 47
+#57 41
 
 for i in range(500): #da se slučajno ne zacikla
     wi, inliers = get_patch(response, center, (5, 5))
@@ -39,6 +42,7 @@ for i in range(500): #da se slučajno ne zacikla
         break
 
 print(num_iterations)
+print(int(center[0]), int(center[1]))
 print(response[int(center[0]), int(center[1])])
 print(np.max(response))
 
