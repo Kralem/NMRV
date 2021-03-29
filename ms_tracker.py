@@ -42,7 +42,7 @@ class MeanShiftTracker(Tracker):
             q = extract_histogram(patch, 16, self.kernel)
             self.q = np.add(((1 - 0.5) * self.q), (0.5 * q))
 
-            if x_k < 0.001 and y_k < 0.001:
+            if x_k < 0.0001 and y_k < 0.0001:
                 break
 
         return [pozicija[0], pozicija[1], self.size[0], self.size[1]]
