@@ -1,14 +1,18 @@
-from ex2_utils import Tracker, get_patch
+from utils.tracker import Tracker
+from ex2_utils import get_patch
 from ex3_utils import create_gauss_peak, create_cosine_window
 import numpy as np
 import cv2
 
 class Project3Tracker(Tracker):
+    def name(self):
+        return 'Project3Tracker'
+
     def initialize(self, image, region):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         self.size = (region[2], region[3])
         self.region = region
-        self.window = max(region[2], region[3]) * self.parameters.enlarge_factor
+        self.window = max(region[2], region[3]) * 2
         self.position = (region[0] + region[2] / 2, region[1] + region[3] / 2)
 
         self.G = create_gauss_peak((self.size[0], self.size[1]), 3)
@@ -50,7 +54,7 @@ class Project3Tracker(Tracker):
         return [self.position[0] - (self.size[0] /2), self.position[1] - (self.size[1] / 2), self.size[0], self.size[1]]
 
 
-class Project3Params():
-    def __init__(self):
-        self.enlarge_factor = 2
+#class Project3Params():
+#    def __init__(self):
+#        self.enlarge_factor = 2
 
