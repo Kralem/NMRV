@@ -19,7 +19,6 @@ class Project3Tracker(Tracker):
         #print(np.shape(self.G))
         self.H = np.divide(np.multiply(np.fft.fft2(self.G), np.conj(np.fft.fft2(self.patch))),
                            (np.multiply(np.fft.fft2(self.patch), np.conj(np.fft.fft2(self.patch))) + 0.000005))
-        self.H = np.conj(np.fft.fft2(self.H))
 
     def track(self, image):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -29,7 +28,6 @@ class Project3Tracker(Tracker):
         oblika = patch_n.shape[::-1]
         H_n = np.divide(np.multiply(np.fft.fft2(self.G), np.conj(np.fft.fft2(patch_n))),
                            (np.multiply(np.fft.fft2(patch_n), np.conj(np.fft.fft2(patch_n))) + 0.000005))
-        H_n = np.conj(np.fft.fft2(H_n))
         H_update = (1 - 0.9)*self.H + 0.9*H_n
         R = np.fft.ifft2(np.multiply(H_update, np.fft.fft2(patch_n)))
         R_max = np.max(R)
