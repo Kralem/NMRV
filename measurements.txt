@@ -1,0 +1,27 @@
+BOLT
+initialize 1 = 500
+update 1 = 349.29
+initialize 2 = 200
+track 2 = 378.48
+initialize 3 = 501
+track 3 = 307.57
+initialize 4 = 333
+track 4 = 292.14
+initialize 5 = 166
+track 5 = 303.52
+initialize 6 = 500
+track 6 = 491.49
+initialize 7 = 1013
+track 7 = 359.45
+initialize 8 = 500
+track 8 = 340.92
+
+CAR
+initialize 1 = 500
+track 1 = 338.83
+initialize 2 = 1000
+track 2 = 535.16
+
+CUP
+initialize = 333
+track = 399.80
