@@ -1,10 +1,17 @@
-from ex2_utils import *
+from ex2_utils import extract_histogram, get_patch, create_epanechnik_kernel, Tracker
 from ex4_utils import gaussian_prob, sample_gauss
 from kalman import NCV, NCA, RW
 from gensim.matutils import hellinger
+import numpy as np
+from utils.tracker import Tracker
+import sympy as sp
 
 
 class ParticleTracker(Tracker):
+
+    def name(self):
+        return 'ParticleTracker'
+
     def sample_new_particles(self, weights, particles, N):
         weights_norm = weights / np.sum(weights)
         weights_cumsumed = np.cumsum(weights_norm)
@@ -21,7 +28,7 @@ class ParticleTracker(Tracker):
             y_ = np.array(region[1::2])
             region = [np.min(x_), np.min(y_), np.max(x_) - np.min(x_) + 1, np.max(y_) - np.min(y_) + 1]
 
-        self.window = max(region[2], region[3]) * self.parameters.enlarge_factor
+        self.window = max(region[2], region[3]) * 2
         self.position = (region[0] + region[2] / 2, region[1] + region[3] / 2)
 
         #create tracking model
@@ -62,7 +69,7 @@ class ParticleTracker(Tracker):
 
             dh = hellinger(hist_pi, self.q) #calculate hellinger for hists with gensim
 
-            self.weights[i] = np.exp(-0.5 * (pow(dh, 2) / pow(2, 2)))
+            self.weights[i] = np.exp(-0.5 * (pow(dh, 2) / pow(1, 2)))
             #print(self.weights[i])
 
             particle_position_x.append(nx)
@@ -88,6 +95,6 @@ class ParticleTracker(Tracker):
 
 
 
-class PTParams():
-    def __init__(self):
-        self.enlarge_factor = 2
+#class PTParams():
+#    def __init__(self):
+#        self.enlarge_factor = 2
